@@ -37,7 +37,7 @@ def Analisis_descriptivo(df_data):
 
     ############ Grafico de Histograma ############
     st.subheader("Histogramas")
-    if feature_names== []:
+    if len(feature_names)==0 :
         st.warning('Seleccione parametros en la parte izquierda de su pantalla')
    
     for name in feature_names:
@@ -74,7 +74,7 @@ def Analisis_descriptivo(df_data):
             columnas=st.multiselect('Seleccione las columnas que le interesan para el boxplot ', df_data.columns)
             feature_names=columnas
 
-    if feature_names == []:
+    if len(feature_names) == 0:
         st.warning('Seleccione parametros en la parte izquierda de su pantalla')
     # feature_names = ['GRE Score', 'TOEFL Score', 'University Rating', 'SOP', 'LOR ', 'CGPA', 'Research', 'Chance of Admit ']
 
