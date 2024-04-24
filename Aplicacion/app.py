@@ -16,7 +16,7 @@ st.set_page_config(page_title='KDA', layout='wide',
 _, _, col3 = st.columns([3,6,3])
 
 with col3:
-    st.image("./Departamento_de_matematicas (1).png", width=250)
+    st.image("./Departamento_de_matematicas (1).jpg", width=250)
 
 _, col2, _ = st.columns([1,6,1])
 
