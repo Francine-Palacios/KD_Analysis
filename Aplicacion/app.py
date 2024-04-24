@@ -24,7 +24,7 @@ def img_to_bytes(img_path):
 _, _, col3 = st.columns([3,6,3])
 
 with col3:
-    st.markdown('''[<img src='data:image/png;base64,{}' class='img-fluid' width=250 height=60>](https://streamlit.io/)'''.format(img_to_bytes("Departamento_de_matematicas (1).png")), unsafe_allow_html=True)
+    st.markdown('''[<img src='data:image/png;base64,{}' class='img-fluid' width=250 height=60>](https://streamlit.io/)'''.format(img_to_bytes(".\Departamento_de_matematicas (1).png")), unsafe_allow_html=True)
 
 _, col2, _ = st.columns([1,6,1])
 
