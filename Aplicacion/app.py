@@ -3,6 +3,8 @@ import pandas as pd
 from informacion import Info
 from Analisis_descriptivo import Analisis_descriptivo
 from Grafico_3d import grafico_3d
+from pathlib import Path
+import base64
 
 
 ########################################################################
@@ -13,10 +15,16 @@ from Grafico_3d import grafico_3d
 st.set_page_config(page_title='KDA', layout='wide',
                 #    initial_sidebar_state=st.session_state.get('sidebar_state', 'collapsed'),
 )
+
+def img_to_bytes(img_path):
+    img_bytes = Path(img_path).read_bytes()
+    encoded = base64.b64encode(img_bytes).decode()
+    return encoded
+
 _, _, col3 = st.columns([3,6,3])
 
 with col3:
-    st.image("./Departamento_de_matematicas (1).jpg", width=250)
+    st.markdown('''[<img src='data:image/png;base64,{}' class='img-fluid' width=250 height=60>](https://streamlit.io/)'''.format(img_to_bytes("Departamento_de_matematicas (1).png")), unsafe_allow_html=True)
 
 _, col2, _ = st.columns([1,6,1])
 
