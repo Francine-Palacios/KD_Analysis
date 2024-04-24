@@ -63,7 +63,7 @@ st.sidebar.caption("Universidad Tecnica Federico Santa María")
 ##################################################################################################
 ############## Tabla con los datos ############################################
 ##################################################################################################
-path=r'..\Datos\kd.blocks.csv'
+path="https://github.com/Francine-Palacios/KD_Analysis/blob/34bb00bfd08595554baa4d6317fd013e4521203d/Datos/kd.blocks.csv"
 df_data = pd.read_csv(path, sep=' ', header=None)
 column_names = ['id', 'x', 'y', 'z', 'tonn', 'blockvalue', 'destination', 'CU%', 'process_profit']
 df_data.columns=column_names
