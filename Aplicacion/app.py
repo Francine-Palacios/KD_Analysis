@@ -4,7 +4,12 @@ from informacion import Info
 from Analisis_descriptivo import Analisis_descriptivo
 from Grafico_3d import grafico_3d
 
+from Procesamiento_data import Consideraciones_data
+from Procesamiento_data import tubos
 
+
+from kriging import kriging_ordinario
+from kriging import predicciones
 ########################################################################
 ############### Configuracion e informacion ############################
 ########################################################################
@@ -32,7 +37,7 @@ with col2:
     st.title('Análisis descriptivo de Arizona’s Copper Deposit (KD)')
 
 texto_descripcion = """
-Esta aplicion fue generada para un analisis descripitvo
+Esta aplicion fue generada para un analisis de datos de Minerias.
 """
 
 
@@ -53,11 +58,10 @@ with exp_col:
         
 
 
-InfoTab,Analisis,Grafico = st.tabs(["Información","Analisis Descriptivo", 'Grafico'])
+InfoTab,Analisis,Grafico, Kriging = st.tabs(["Información","Analisis Descriptivo", 'Grafico', "Kriging"])
 
         
-st.sidebar.title("Analisis descriptivo de Arizona’s Copper Deposit (KD) ")
-st.sidebar.caption("Universidad Tecnica Federico Santa María")
+
 
 
 ##################################################################################################
@@ -78,3 +82,20 @@ with Analisis:
 
 with Grafico:
     grafico_3d(df_data)
+
+
+with Kriging:
+
+    Consideraciones ,Ordinario  = st.tabs(["Consideraciones","Ordinario"])
+
+    with Consideraciones:
+        Consideraciones_data()
+        combined_df, combined_dfm=tubos(df_data, 1600)
+        grafico_3d(combined_df)
+        grafico_3d(combined_dfm)
+    with Ordinario:
+        krig_ordinario= kriging_ordinario(combined_df)
+        data_a_predecir,_= tubos(df_data,1)
+        st.dataframe(predicciones(krig_ordinario, data_a_predecir))
+
+
