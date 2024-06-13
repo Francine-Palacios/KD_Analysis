@@ -8,9 +8,6 @@ from Procesamiento_data import Consideraciones_data
 from Procesamiento_data import tubos
 from Procesamiento_data import tubos_eleccion
 
-from kriging import kriging_ordinario
-from kriging import predicciones
-
 from funciones_auxiliares import aplicar_filtros
 from funciones_auxiliares import combinar_datos
 from funciones_auxiliares import grafico_3d_combinado
