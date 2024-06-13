@@ -92,7 +92,7 @@ with Kriging:
 
     with Consideraciones:
         contenido_info_modelo()
-        path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/"
+        path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/main/Resultados/"
         pred_simple= pd.read_csv(path2+"kriging_simple.csv")
         pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
         pred_ordinario= pd.read_csv(path2+"kriging_ordinario.csv")
@@ -117,8 +117,8 @@ with Kriging:
                 submit_button = st.form_submit_button(label='Aplicar filtros')
 
             if submit_button:
-                path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/"
-                pred_simple= pd.read_csv(f"https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/kriging_{tipo_kriging}.csv")
+                path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/main/Resultados/"
+                pred_simple= pd.read_csv(f"https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/main/Resultados/kriging_simple.csv/kriging_{tipo_kriging}.csv")
                 pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
                 z_min, z_max = z_range
                 df_filtrado = aplicar_filtros(pred_simple, umbral, filtrar_cu, z_min, z_max)
@@ -134,7 +134,7 @@ with Kriging:
                 submit_button = st.form_submit_button(label='Aplicar filtros')
 
             if submit_button:
-                path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/"
+                path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/main/Resultados/"
                 pred_simple= pd.read_csv(path2 + f"kriging_{tipo_kriging}.csv")
                 pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
                 z_min, z_max = z_range
