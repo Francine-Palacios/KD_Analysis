@@ -15,6 +15,8 @@ from funciones_auxiliares import aplicar_filtros
 from funciones_auxiliares import combinar_datos
 from funciones_auxiliares import grafico_3d_combinado
 from funciones_auxiliares import grafico_linea
+
+from info_modelo import contenido_info_modelo
 ########################################################################
 ############### Configuracion e informacion ############################
 ########################################################################
@@ -28,10 +30,8 @@ st.set_page_config(page_title='KDA', layout='wide',
 _, _, col3 = st.columns([3,6,3])
 
 with col3:
-    # URL de la imagen que quieres mostrar
     url_imagen = "https://matematica.usm.cl/wp-content/themes/dmatUSM/assets/img/logoDMAT2.png"
 
-    # Mostrar la imagen en la aplicación de Streamlit
     st.image(url_imagen, width=250)
 
 
@@ -42,7 +42,7 @@ with col2:
     st.title('Análisis descriptivo de Arizona’s Copper Deposit (KD)')
 
 texto_descripcion = """
-Esta aplicion fue generada para un analisis de datos de Minerias.
+Esta aplicación fue desarrollada en Python como un visualizador de los resultados del análisis de datos de minería. La producción, predicción y otros procesamientos se llevaron a cabo en un archivo separado utilizando R.
 """
 
 
@@ -92,14 +92,12 @@ with Grafico:
 
 with Kriging:
 
-    Consideraciones, resultados_grafico  = st.tabs(["Consideraciones", "Graficos de las predicciones"])
+    Consideraciones, resultados_grafico, futura_propuesta  = st.tabs(["Consideraciones", "Graficos de las predicciones", "Futura Propuesta"])
 
     with Consideraciones:
-        Consideraciones_data()
-        combined_df, combined_dfm=tubos(df_data, 1600)
-        grafico_3d(combined_df, seleccionar_rango=False)
-        st.dataframe(combined_df)
 
+
+        contenido_info_modelo()
         pred_simple= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_simple.csv")
         pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
         pred_ordinario= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_ordinario.csv")
@@ -147,8 +145,10 @@ with Kriging:
                 df_combinado = combinar_datos(df_filtrado, df_data)
                 st.write("Datos combinados:")
                 st.dataframe(df_combinado)
-                # Aquí llamarías a tu función de graficar con el DataFrame combinado
                 grafico_3d_combinado(df_combinado, seleccionar_rango=False, max=True)
             
-
-
+    with futura_propuesta:
+        Consideraciones_data()
+        combined_df, combined_dfm=tubos(df_data, 1000)
+        grafico_3d(combined_df, seleccionar_rango=False)
+        st.dataframe(combined_df)

@@ -5,16 +5,15 @@ import streamlit as st
 
 def Consideraciones_data():
     info_text = """
-    En este análisis, procesaremos los datos mineros utilizando el concepto de 'tubos'. 
+    Se propone en un futuro un análisis, procesando los datos mineros utilizando el concepto de 'tubos'. 
     Los 'tubos' se refieren a las muestras extraídas verticalmente desde la superficie hacia abajo 
     en coordenadas específicas (x, y). Estas muestras contienen información valiosa sobre la 
     distribución del mineral a lo largo de la profundidad (z).
 
-    Al entrenar nuestro modelo de Kriging, seguiremos el orden natural en que se obtuvieron los datos, 
+    Al entrenar nuestro modelo de Kriging usando la propuesta anteiror, seguiremos el orden natural en que se obtuvieron los datos, 
     es decir, respetando la secuencia de las muestras en los 'tubos'. Esto es crucial porque la 
     correlación espacial en la minería a menudo se presenta en la dirección vertical, y nuestro 
     modelo debe capturar esta relación para hacer predicciones precisas.
-
 
     """
     st.write(info_text)
