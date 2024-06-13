@@ -1,4 +1,4 @@
 # Desarrollo 
 
 
-En esta carpeta se alojara diferentes desarrollos, en vias de produccion para la aplicacion.
+En esta carpeta se alojara diferentes desarrollos, en vias de produccion.

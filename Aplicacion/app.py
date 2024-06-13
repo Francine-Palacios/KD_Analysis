@@ -118,7 +118,7 @@ with Kriging:
 
             if submit_button:
                 path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/main/Resultados/"
-                pred_simple= pd.read_csv(f"https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/main/Resultados/kriging_simple.csv/kriging_{tipo_kriging}.csv")
+                pred_simple= pd.read_csv(f"https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/main/Resultados/kriging_{tipo_kriging}.csv")
                 pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
                 z_min, z_max = z_range
                 df_filtrado = aplicar_filtros(pred_simple, umbral, filtrar_cu, z_min, z_max)
@@ -139,7 +139,8 @@ with Kriging:
                 pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
                 z_min, z_max = z_range
                 df_filtrado = aplicar_filtros(pred_simple, umbral, filtrar_cu, z_min, z_max)
-                df_combinado = combinar_datos(df_filtrado, df_data)
+                df_data_filtrado = df_data[(df_data['z'] >= z_min) & (df_data['z'] <= z_max)]
+                df_combinado = combinar_datos(df_filtrado, df_data_filtrado)
                 st.write("Datos combinados:")
                 st.dataframe(df_combinado)
                 grafico_3d_combinado(df_combinado, seleccionar_rango=False, max=True)

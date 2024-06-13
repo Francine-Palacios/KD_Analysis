@@ -52,8 +52,8 @@ def Analisis_descriptivo(df_data):
                 name=name,
                 marker=dict(
                     line=dict(
-                        color='black',  # Color del borde
-                        width=1         # Ancho del borde
+                        color='black',  
+                        width=1         
                     )
                 ),
             ),

@@ -8,11 +8,11 @@ def contenido_info_modelo():
 
     <p>Utilizamos la transformación de Box-Cox para normalizar la distribución de nuestros datos, lo cual es crucial para mejorar la precisión de los modelos geoestadísticos. La transformación de Box-Cox requiere que los datos sean estrictamente positivos. Dado que nuestros datos a predecir son porcentajes, no hay problema con la no negatividad. Sin embargo, muchos de los porcentajes son 0, por lo que transformamos la variable "porcentaje de cobre" a "no porcentaje de cobre" restando el valor del dato a 100 (es decir, su complemento), para cumplir con la hipótesis de positividad. Además, dividimos por 100 para ajustar la escala.</p>
 
-    <p>La elección del parámetro lambda  de la transformación Box-Cox se realizó mediante la técnica del "codo", que busca el valor de \(\lambda\) que maximiza la verosimilitud logarítmica. Utilizamos la librería MASS de R para calcular automáticamente el lambda óptimo, que resultó ser aproximadamente 145.</p>
+    <p>La elección del parámetro lambda  de la transformación Box-Cox se realizó mediante la técnica del "codo", que busca el valor de lambda que maximiza la verosimilitud logarítmica. Utilizamos la librería MASS de R para calcular automáticamente el lambda óptimo, que resultó ser aproximadamente 145.</p>
 
     <h2>Análisis de Variograma</h2>
 
-    <p>Asumimos tanto una media constante en los datos como una media variable. Calculamos dos variogramas empíricos y seleccionamos el de Cressie y Hawkins por ser más robusto frente a valores atípicos.</p>
+    <p>Para los modelos de Kriging Simple y Ordinario, asumimos una media constante en los datos.Para el calculo del variograma empirico seleccionamos el metodo de Cressie y Hawkins por ser más robusto frente a valores atípicos. La siguiente tabla resume la suma de las distancias desde el variograma empirico al variograma teorico estimado, donde para este ultimo se usaron los principales modelos, entre ellos el modelo esferico, exponencial etc.</p>
 
     <table style="width:50%; margin-left:auto; margin-right:auto;">
     <tr>
@@ -37,23 +37,58 @@ def contenido_info_modelo():
     </tr>
     </table>
 
+
+
+    <p>Tambien recalculamos el variograma empírico/teórico asumiendo la tendencia. Utilizamos los mismos modelos y obtuvimos los siguientes resultados:</p>
+
+    <table style="width:50%; margin-left:auto; margin-right:auto;">
+    <tr>
+        <th>Modelo</th>
+        <th>SSE</th>
+    </tr>
+    <tr>
+        <td>Esférico</td>
+        <td>2.235154 &times; 10<sup>-8</sup></td>
+    </tr>
+    <tr>
+        <td>Exponencial</td>
+        <td>4.414818 &times; 10<sup>-8</sup></td>
+    </tr>
+    <tr>
+        <td>Gaussiano</td>
+        <td>9.676946 &times; 10<sup>-9</sup></td>
+    </tr>
+    <tr>
+        <td>Lineal</td>
+        <td>1.75465 &times; 10<sup>-8</sup></td>
+    </tr>
+    </table>
+    
+    Usando ambas hipotesis, uno de los mejores resultados fue usando el modelo Gaussiano, el cual se utilizara para los tres Kriging.
+
+    <h2> Evaluacion de las predicciones </h2>
+
+    Para evaluar los resultados, utilizamos una validación cruzada K-fold con 10 folds. Esta elección se basa en un equilibrio entre el sesgo y la varianza. Usar 10 folds es una práctica estándar en muchos estudios porque proporciona una estimación fiable del error de predicción sin inflar demasiado el tiempo computacional. Además, con aproximadamente 14,000 datos, 10 folds asegura que cada fold contiene suficiente información para ser representativo del conjunto de datos completo. Los resultados para cada Kriging se denota en las siguientes secciones:
+    
     <h2>Kriging Simple</h2>
 
-    <p>Para el kriging simple, calculamos la media conocida como el promedio general de la variable a predecir.</p>
+    <p>Para el kriging simple, calculamos la media conocida como el promedio general de la variable a predecir. Los resultados de los errores usando K-fold fueron los siguientes: </p>
 
-    <pre>
-    Root Mean Squared Error (RMSE): 0.0006955978 
-    Mean Absolute Error (MAE): 0.0003329818
-    </pre>
+    <ul>
+    <li>Root Mean Squared Error (RMSE): 0.0006955978</li>
+    <li>Mean Absolute Error (MAE): 0.0003329818</li>
+    </ul>
+
 
     <h2>Kriging Ordinario</h2>
 
-    <p>En el kriging ordinario, no asumimos que conocemos la media, sino que la estimamos. Los resultados fueron muy similares:</p>
+    <p>En el kriging ordinario, no asumimos que conocemos la media, sino que la estimamos. Los resultados del Kfold fueron muy similares al de Kriging Simple :</p>
 
-    <pre>
-    Root Mean Squared Error (RMSE): 0.0006966028 
-    Mean Absolute Error (MAE): 0.0003321576
-    </pre>
+    <ol>
+    <li>Root Mean Squared Error (RMSE): 0.0006966028</li>
+    <li>Mean Absolute Error (MAE): 0.0003321576</li>
+    </ol>
+
 
     <h2>Kriging Universal</h2>
 
@@ -135,38 +170,13 @@ def contenido_info_modelo():
         <td>&lt;2e-16 ***</td>
     </tr>
     </table>
-    <h3>Cálculo del Variograma Empírico/Teórico</h3>
-
-    <p>Volvimos a calcular el variograma empírico/teórico asumiendo la tendencia. Utilizamos los mismos modelos y obtuvimos los siguientes resultados:</p>
-
-    <table style="width:50%; margin-left:auto; margin-right:auto;">
-    <tr>
-        <th>Modelo</th>
-        <th>SSE</th>
-    </tr>
-    <tr>
-        <td>Esférico</td>
-        <td>2.235154 &times; 10<sup>-8</sup></td>
-    </tr>
-    <tr>
-        <td>Exponencial</td>
-        <td>4.414818 &times; 10<sup>-8</sup></td>
-    </tr>
-    <tr>
-        <td>Gaussiano</td>
-        <td>9.676946 &times; 10<sup>-9</sup></td>
-    </tr>
-    <tr>
-        <td>Lineal</td>
-        <td>1.75465 &times; 10<sup>-8</sup></td>
-    </tr>
-    </table>
     
     <p> Los resultados de las predicciones usando K-Folds, con 10 folds al igual que antes fue de : 
-      <pre>
-    Root Mean Squared Error (RMSE): 0.0006768341 
-    Mean Absolute Error (MAE): 0.0002693542 
-    </pre>
+    <ul>
+    <li>Root Mean Squared Error (RMSE): 0.0006768341</li>
+    <li>Mean Absolute Error (MAE): 0.0002693542</li>
+    </ul>
+
     
     <h2>Resumen de Métricas para Kriging</h1>
 

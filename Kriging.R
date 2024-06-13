@@ -3,7 +3,7 @@
 ########## Lectura de Archivo y formato ########################
 ################################################################
 
-filename <- "C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/KD_Analysis/Datos/kd.blocks.csv"
+filename <- "/Datos/kd.blocks.csv"
 column_names <- c('id', 'x', 'y', 'z', 'tonn', 'blockvalue', 'destination', 'CU', 'process_profit')
 a <- read.csv(filename, header = FALSE, col.names = column_names, sep=' ')
 a <- na.omit(a)
@@ -270,7 +270,7 @@ K_df$CU_original <- 100 - (K_df$CU_original * 100)
 K_df$CU_original <- ifelse(K_df$CU_original < 0, 0, K_df$CU_original)
 
 
-write.csv(K_df, "C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_ordinario.csv",row.names = FALSE, col.names = FALSE)
+write.csv(K_df, "/Resultados/kriging_ordinario.csv",row.names = FALSE, col.names = FALSE)
 
 #####################################################################
 #####################################################################

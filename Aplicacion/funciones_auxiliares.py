@@ -108,34 +108,31 @@ def grafico_3d_combinado(df_combinado, seleccionar_rango=True, etiqueta='', max=
 def grafico_linea(df_simple, df_ordinario, df_universal, max_index):
     fig = go.Figure()
 
-    # Agregar la línea para pred_simple
     fig.add_trace(go.Scatter(
         x=df_simple.index[:max_index], y=df_simple['CU%'][:max_index],
-        mode='lines+markers',  # Conectar los puntos con líneas y mostrar los marcadores
+        mode='lines+markers',  
         name='Kriging Simple',
         line=dict(color='blue'),
         marker=dict(size=6)
     ))
 
-    # Agregar la línea para pred_ordinario
     fig.add_trace(go.Scatter(
         x=df_ordinario.index[:max_index], y=df_ordinario['CU%'][:max_index],
-        mode='lines+markers',  # Conectar los puntos con líneas y mostrar los marcadores
+        mode='lines+markers',  
         name='Kriging Ordinario',
         line=dict(color='green'),
         marker=dict(size=6)
     ))
 
-    # Agregar la línea para pred_universal
+    
     fig.add_trace(go.Scatter(
         x=df_universal.index[:max_index], y=df_universal['CU%'][:max_index],
-        mode='lines+markers',  # Conectar los puntos con líneas y mostrar los marcadores
+        mode='lines+markers',  
         name='Kriging Universal',
         line=dict(color='red'),
         marker=dict(size=6)
     ))
 
-    # Configurar la disposición de la gráfica
     fig.update_layout(title='Comparación de CU% entre diferentes métodos de Kriging',
                       xaxis_title='Índice',
                       yaxis_title='Porcentaje de Cobre (CU%)',
