@@ -6,10 +6,15 @@ from Grafico_3d import grafico_3d
 
 from Procesamiento_data import Consideraciones_data
 from Procesamiento_data import tubos
-
+from Procesamiento_data import tubos_eleccion
 
 from kriging import kriging_ordinario
 from kriging import predicciones
+
+from funciones_auxiliares import aplicar_filtros
+from funciones_auxiliares import combinar_datos
+from funciones_auxiliares import grafico_3d_combinado
+from funciones_auxiliares import grafico_linea
 ########################################################################
 ############### Configuracion e informacion ############################
 ########################################################################
@@ -67,7 +72,8 @@ InfoTab,Analisis,Grafico, Kriging = st.tabs(["Información","Analisis Descriptiv
 ##################################################################################################
 ############## Tabla con los datos ############################################
 ##################################################################################################
-path = "https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Datos/kd.blocks.csv"
+# path = "https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Datos/kd.blocks.csv"
+path= r'C:\Users\Francine Palacios\OneDrive - Universidad Técnica Federico Santa María\Ramos\Primer Semestre 2024\Laboratorio de Modelacion\KD_Analysis\Datos\kd.blocks.csv'
 df_data = pd.read_csv(path, sep=' ', header=None)
 column_names = ['id', 'x', 'y', 'z', 'tonn', 'blockvalue', 'destination', 'CU%', 'process_profit']
 df_data.columns=column_names
@@ -86,16 +92,63 @@ with Grafico:
 
 with Kriging:
 
-    Consideraciones ,Ordinario  = st.tabs(["Consideraciones","Ordinario"])
+    Consideraciones, resultados_grafico  = st.tabs(["Consideraciones", "Graficos de las predicciones"])
 
     with Consideraciones:
         Consideraciones_data()
         combined_df, combined_dfm=tubos(df_data, 1600)
-        grafico_3d(combined_df)
-        grafico_3d(combined_dfm)
-    with Ordinario:
-        krig_ordinario= kriging_ordinario(combined_df)
-        data_a_predecir,_= tubos(df_data,1)
-        st.dataframe(predicciones(krig_ordinario, data_a_predecir))
+        grafico_3d(combined_df, seleccionar_rango=False)
+        st.dataframe(combined_df)
+
+        pred_simple= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_simple.csv")
+        pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
+        pred_ordinario= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_ordinario.csv")
+        pred_ordinario = pred_ordinario.rename(columns={'CU_original':'CU%'})
+        pred_universal= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_universal.csv")
+        pred_universal = pred_universal.rename(columns={'CU_original':'CU%'})
+        max_index_available = min(len(pred_simple), len(pred_ordinario), len(pred_universal))
+        max_index = st.slider('Selecciona hasta qué índice visualizar', min_value=1, max_value=max_index_available, value=300)
+
+        grafico_linea(pred_simple, pred_ordinario, pred_universal, max_index)
+                
+    
+    with resultados_grafico:
+        
+        grafico_simple_predicciones, grafico_simple_predicciones_vs_reales  = st.tabs(["Predicciones", "Predicciones v/s reales"])
+        with grafico_simple_predicciones:
+            with st.form(key='filtros_form'):
+                tipo_kriging = st.selectbox("Selecciona el tipo de Kriging", ["simple", "ordinario", "universal"])
+                umbral = st.number_input('Umbral de CU%', min_value=0.0, max_value=100.0, value=0.0, step=0.01)
+                filtrar_cu = st.checkbox('Mostrar solo puntos donde CU% es distinto de 0')
+                z_range = st.slider('Rango de z', min_value=int(df_data['z'].min()), max_value=int(df_data['z'].max()), value=(int(df_data['z'].min()), int(df_data['z'].max())), step=1)
+                submit_button = st.form_submit_button(label='Aplicar filtros')
+
+            if submit_button:
+                pred_simple= pd.read_csv(f"C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_{tipo_kriging}.csv")
+                pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
+                z_min, z_max = z_range
+                df_filtrado = aplicar_filtros(pred_simple, umbral, filtrar_cu, z_min, z_max)
+                st.write("Datos filtrados:")
+                st.dataframe(df_filtrado)
+                grafico_3d(df_filtrado, etiqueta= ' Kriging Simple', max=True, seleccionar_rango=False)
+        with grafico_simple_predicciones_vs_reales:
+            with st.form(key='filtros_form_real_vs_predic'):
+                tipo_kriging = st.selectbox("Selecciona el tipo de Kriging", ["simple", "ordinario", "universal"])
+                umbral = st.number_input('Umbral para CU%', min_value=0.0, max_value=100.0, value=0.0, step=0.01)
+                filtrar_cu = st.checkbox('Mostrar solo puntos donde CU% son distinto de 0')
+                z_range = st.slider('Rango de z', min_value=int(pred_simple['z'].min()), max_value=int(pred_simple['z'].max()), value=(int(pred_simple['z'].min()), int(pred_simple['z'].max())), step=1)
+                submit_button = st.form_submit_button(label='Aplicar filtros')
+
+            if submit_button:
+                pred_simple= pd.read_csv(f"C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_{tipo_kriging}.csv")
+                pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
+                z_min, z_max = z_range
+                df_filtrado = aplicar_filtros(pred_simple, umbral, filtrar_cu, z_min, z_max)
+                df_combinado = combinar_datos(df_filtrado, df_data)
+                st.write("Datos combinados:")
+                st.dataframe(df_combinado)
+                # Aquí llamarías a tu función de graficar con el DataFrame combinado
+                grafico_3d_combinado(df_combinado, seleccionar_rango=False, max=True)
+            
 
 

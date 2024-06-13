@@ -2,6 +2,7 @@
 import numpy as np
 import gstools as gs
 import pandas as pd
+from sklearn.preprocessing import StandardScaler, Normalizer
 
 from Procesamiento_data import tubos
 
@@ -14,12 +15,15 @@ def kriging_ordinario(combined_df):
     
     model = gs.Spherical(dim=3, var=0.5, len_scale=1.5)
 
-    krige = gs.krige.Ordinary(model, [x, y, z], cu_value)
+    # krige = gs.krige.Ordinary(model, [x, y, z], cu_value)
+    normalizador= Normalizer()
+    krige= gs.krige.Simple(model, [x,y,z],cu_value, mean=1) #normalizer= Normalizer, fit_normalizer=True)
 
     return krige
 
 
 def predicciones(krige, data):
+
     x = np.array(data['x']).astype(float)
     y = np.array(data['y']).astype(float)
     z = np.array(data['z']).astype(float)
