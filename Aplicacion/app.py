@@ -72,8 +72,7 @@ InfoTab,Analisis,Grafico, Kriging = st.tabs(["Información","Analisis Descriptiv
 ##################################################################################################
 ############## Tabla con los datos ############################################
 ##################################################################################################
-# path = "https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Datos/kd.blocks.csv"
-path= r'C:\Users\Francine Palacios\OneDrive - Universidad Técnica Federico Santa María\Ramos\Primer Semestre 2024\Laboratorio de Modelacion\KD_Analysis\Datos\kd.blocks.csv'
+path = "https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Datos/kd.blocks.csv"
 df_data = pd.read_csv(path, sep=' ', header=None)
 column_names = ['id', 'x', 'y', 'z', 'tonn', 'blockvalue', 'destination', 'CU%', 'process_profit']
 df_data.columns=column_names
@@ -95,14 +94,13 @@ with Kriging:
     Consideraciones, resultados_grafico, futura_propuesta  = st.tabs(["Consideraciones", "Graficos de las predicciones", "Futura Propuesta"])
 
     with Consideraciones:
-
-
         contenido_info_modelo()
-        pred_simple= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_simple.csv")
+        path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/"
+        pred_simple= pd.read_csv(path2+"kriging_simple.csv")
         pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
-        pred_ordinario= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_ordinario.csv")
+        pred_ordinario= pd.read_csv(path2+"kriging_ordinario.csv")
         pred_ordinario = pred_ordinario.rename(columns={'CU_original':'CU%'})
-        pred_universal= pd.read_csv("C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_universal.csv")
+        pred_universal= pd.read_csv(path2+"kriging_universal.csv")
         pred_universal = pred_universal.rename(columns={'CU_original':'CU%'})
         max_index_available = min(len(pred_simple), len(pred_ordinario), len(pred_universal))
         max_index = st.slider('Selecciona hasta qué índice visualizar', min_value=1, max_value=max_index_available, value=300)
@@ -122,7 +120,8 @@ with Kriging:
                 submit_button = st.form_submit_button(label='Aplicar filtros')
 
             if submit_button:
-                pred_simple= pd.read_csv(f"C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_{tipo_kriging}.csv")
+                path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/"
+                pred_simple= pd.read_csv(f"https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/kriging_{tipo_kriging}.csv")
                 pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
                 z_min, z_max = z_range
                 df_filtrado = aplicar_filtros(pred_simple, umbral, filtrar_cu, z_min, z_max)
@@ -138,7 +137,8 @@ with Kriging:
                 submit_button = st.form_submit_button(label='Aplicar filtros')
 
             if submit_button:
-                pred_simple= pd.read_csv(f"C:/Users/Francine Palacios/OneDrive - Universidad Técnica Federico Santa María/Ramos/Primer Semestre 2024/Laboratorio de Modelacion/kriging_{tipo_kriging}.csv")
+                path2="https://raw.githubusercontent.com/Francine-Palacios/KD_Analysis/34bb00bfd08595554baa4d6317fd013e4521203d/Resultados/"
+                pred_simple= pd.read_csv(path2 + f"kriging_{tipo_kriging}.csv")
                 pred_simple = pred_simple.rename(columns={'CU_original':'CU%'})
                 z_min, z_max = z_range
                 df_filtrado = aplicar_filtros(pred_simple, umbral, filtrar_cu, z_min, z_max)
