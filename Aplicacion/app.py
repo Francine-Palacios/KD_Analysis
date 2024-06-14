@@ -36,7 +36,7 @@ with col3:
 _, col2, _ = st.columns([1,6,1])
 
 with col2:
-    st.title('Análisis descriptivo de Arizona’s Copper Deposit (KD)')
+    st.title('Análisis y Predicción utilizando Técnicas de Kriging para Arizona’s Copper Deposit (KD)')
 
 texto_descripcion = """
 Esta aplicación fue desarrollada en Python como un visualizador de los resultados del análisis de datos de minería. La producción, predicción y otros procesamientos se llevaron a cabo en un archivo separado utilizando R.

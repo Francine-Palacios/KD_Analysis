@@ -74,7 +74,7 @@ def Analisis_descriptivo(df_data):
     ########## Grafico de Histograma, diferenciando entre la variable objetivo ##########
     #####################################################################################
 
-    st.subheader("Histograma diferenciado por 'Chance of Admit'")
+    st.subheader("Histograma diferenciado por 'Porcentaje de Cobre'")
     Chance= st.slider("Porcentaje de Cobre", min_value=0.1,max_value=2.0,value=0.5, step=0.1)
 
     df_aux=df_data.copy()
