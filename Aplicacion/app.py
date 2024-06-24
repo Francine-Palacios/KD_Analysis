@@ -48,7 +48,7 @@ texto_info = """
 - Ramo: Laboratorio de Modelación
 - Institución: Universidad Tecnica Federico Santa Maria
 """
-st.snow()
+# st.snow() 
 
 
 
